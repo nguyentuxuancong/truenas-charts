@@ -1,0 +1,40 @@
+# Default values for ..
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ntxcong/openfortivpn-client
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+env:
+  VPN_HOST: "116.97.243.74"
+  VPN_PORT: "10443"
+  VPN_TRUSTED_CERT: "6e98ee822decdbc94380e41ffaa9744846744a998919ca6174170074e3a3daaf"
+
+securityContext:
+  runAsUser: 0
+
+containerSecurityContext:
+  privileged: true
+  capabilities:
+    add:
+      - NET_ADMIN
+
+volumeMounts:
+  - name: dev-ppp
+    mountPath: /dev/ppp
+    readOnly: true
+
+volumes:
+  - name: dev-ppp
+    hostPath:
+      path: /dev/ppp
+      type: CharDevice

@@ -1,0 +1,13 @@
+categories:
+  - VPN
+  - Networking
+app_readme: |
+  # OpenFortiVPN Client
+
+  A client for connecting to Fortinet VPNs using openfortivpn.
+
+name: openfortivpn-client
+version: "0.1.0"
+icon_url: "https://nguyentuxuancong.github.io/truenas-charts/charts/openfortivpn-client/icon.png"
+catalog: "my-custom-catalog"
+train: "charts"

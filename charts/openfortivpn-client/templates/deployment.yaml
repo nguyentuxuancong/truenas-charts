@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "openfortivpn-client.fullname" . }}
+  labels:
+    app: {{ include "openfortivpn-client.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "openfortivpn-client.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "openfortivpn-client.name" . }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: VPN_HOST
+              value: {{ .Values.env.VPN_HOST }}
+            - name: VPN_PORT
+              value: {{ .Values.env.VPN_PORT }}
+            - name: VPN_TRUSTED_CERT
+              value: {{ .Values.env.VPN_TRUSTED_CERT }}
+            - name: VPN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vpn-credentials
+                  key: VPN_USERNAME
+            - name: VPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vpn-credentials
+                  key: VPN_PASSWORD
+          securityContext:
+            privileged: {{ .Values.containerSecurityContext.privileged }}
+            capabilities:
+              add:
+                - {{ .Values.containerSecurityContext.capabilities.add | join "\n                - " }}
+          volumeMounts:
+            - name: dev-ppp
+              mountPath: /dev/ppp
+              readOnly: true
+      volumes:
+        - name: dev-ppp
+          hostPath:
+            path: /dev/ppp
+            type: CharDevice

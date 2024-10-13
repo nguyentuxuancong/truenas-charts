@@ -1,0 +1,6 @@
+{
+  "name": "My Custom Catalog",
+  "preferred_trains": ["charts"],
+  "location": "https://github.com/nguyentuxuancong/truenas-charts.git",
+  "id": "my-custom-catalog"
+}

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: openfortivpn-client
+description: A Helm chart for deploying openfortivpn-client on TrueNAS SCALE
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: "https://nguyentuxuancong.github.io/truenas-charts/charts/openfortivpn-client/icon.png"
